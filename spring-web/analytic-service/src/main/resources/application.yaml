@@ -1,0 +1,9 @@
+server:
+  port: 8177
+  servlet:
+    context-path: /web-market-analytic
+integration:
+  service:
+    url: http://localhost:5555/
+
+
