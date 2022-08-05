@@ -1,14 +1,16 @@
 package com.timal1.spring.web.core.controller;
 
+import com.timal1.spring.web.api.core.ProductDto;
 import com.timal1.spring.web.api.exeptions.ResourceNotFoundException;
 import com.timal1.spring.web.core.validators.ProductValidator;
-import com.timal1.spring.web.api.dto.ProductDto;
 import com.timal1.spring.web.core.entities.Product;
 import com.timal1.spring.web.core.services.ProductService;
 import com.timal1.spring.web.core.converters.ProductConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

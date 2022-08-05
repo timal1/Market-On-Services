@@ -1,7 +1,7 @@
 package com.timal1.spring.web.core.validators;
 
 
-import com.timal1.spring.web.api.dto.ProductDto;
+import com.timal1.spring.web.api.core.ProductDto;
 import com.timal1.spring.web.core.exeptions.ValidationException;
 import org.springframework.stereotype.Component;
 

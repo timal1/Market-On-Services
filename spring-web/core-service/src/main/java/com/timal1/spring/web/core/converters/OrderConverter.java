@@ -1,6 +1,6 @@
 package com.timal1.spring.web.core.converters;
 
-import com.timal1.spring.web.core.dto.OrderDto;
+import com.timal1.spring.web.api.core.OrderDto;
 import com.timal1.spring.web.core.entities.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

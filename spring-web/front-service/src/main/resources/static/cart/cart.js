@@ -6,8 +6,7 @@ angular.module('market-front').controller('cartController', function ($scope, $h
             url: contextPath + 'cart/api/v1/cart/' + $localStorage.springWebGuestCartId,
             method: 'GET'
         }).then(function (response) {
-            $localStorage.cartStorage = response.data;
-            $scope.cart = $localStorage.cartStorage;
+            $scope.cart = response.data;
         });
     };
 
@@ -26,11 +25,7 @@ angular.module('market-front').controller('cartController', function ($scope, $h
         $http({
             url: contextPath + 'core/api/v1/orders',
             method: 'POST',
-            params: {
-                address: $scope.orderDetails.address,
-                phone: $scope.orderDetails.phone
-            },
-             data: $localStorage.cartStorage
+             data: $scope.orderDetails
         })
             .then(function (response) {
             $scope.clearCart();

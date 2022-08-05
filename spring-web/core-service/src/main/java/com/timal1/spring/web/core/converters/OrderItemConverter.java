@@ -1,7 +1,7 @@
 package com.timal1.spring.web.core.converters;
 
 
-import com.timal1.spring.web.api.dto.OrderItemDto;
+import com.timal1.spring.web.api.core.OrderItemDto;
 import com.timal1.spring.web.core.entities.OrderItem;
 import org.springframework.stereotype.Component;
 
