@@ -41,11 +41,12 @@ public class CartService {
     }
 
     public void addToCart(String cartKey, Long productId) {
-        ProductDto productDto = productServiceIntegration.getProductById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найдет с id: " + productId));
-        execute(cartKey, c -> {
-            c.add(productDto);
-        });
+            ProductDto productDto = productServiceIntegration.getProductById(productId)
+                    .orElseThrow();
+                   // .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + productId + " не найден"));
+            execute(cartKey, c -> {
+                c.add(productDto);
+            });
         CartItemEntity cartItemEntity = new CartItemEntity();
         cartItemEntity.setProductId(productDto.getId());
         cartItemEntity.setProductTitle(productDto.getTitle());

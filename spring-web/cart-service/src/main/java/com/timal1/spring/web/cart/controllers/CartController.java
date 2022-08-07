@@ -2,10 +2,16 @@ package com.timal1.spring.web.cart.controllers;
 
 import com.timal1.spring.web.api.carts.CartDto;
 import com.timal1.spring.web.api.dto.StringResponse;
+import com.timal1.spring.web.api.exeptions.AppError;
+import com.timal1.spring.web.api.exeptions.ResourceNotFoundException;
 import com.timal1.spring.web.cart.converters.CartConverter;
+import com.timal1.spring.web.cart.exeptions.GlobalExceptionHandler;
 import com.timal1.spring.web.cart.services.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 
@@ -27,8 +33,15 @@ public class CartController {
     }
 
     @GetMapping("/{uuid}/add/{productId}")
-    public void add(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
-        cartService.addToCart(cartService.getCurrentCartUuid(username, uuid), productId);
+    public ResponseEntity<?> add(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
+        try {
+            cartService.addToCart(cartService.getCurrentCartUuid(username, uuid), productId);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+        } catch (WebClientResponseException we) {
+            return new ResponseEntity<>(new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Сервер продуктов не отвечает"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return null;
     }
 
     @GetMapping("/{uuid}/decrement/{productId}")

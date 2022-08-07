@@ -19,8 +19,7 @@ public class ProductsSpecifications {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
     }
 
-    public static Specification<Product> categoryLike(Long categoryId) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), categoryId);
-
+    public static Specification<Product> categoryLike(String categoryTitle) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("category").get("title"), String.format("%%%s%%", categoryTitle));
     }
 }
