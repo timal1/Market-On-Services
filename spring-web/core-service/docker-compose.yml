@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db-cloud
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-cloud:5432/cloud-postgres
+      - SPRING_DATASOURCE_USERNAME=cloud-postgres
+      - SPRING_DATASOURCE_PASSWORD=cloud-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+     - 5432:5432
+    volumes:
+      - data_pg:/var/lib/postgresql/data
+volumes:
+  data_pg:
