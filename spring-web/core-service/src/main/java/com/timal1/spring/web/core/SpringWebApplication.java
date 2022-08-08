@@ -8,20 +8,32 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringWebApplication {
 
 	// Домашнее задание:
-	// 1. При добавлении товара в корзину, Вы можете столкнуться с двумя проблемами:
-	//    - МС продуктов не отвечает, что делать? Корзина должна сообщить фронту что возникла ошибка интеграции с кор сервисом
-	//	  - Выбранный продукт не найден в кор МС
-	//    Попробуйте сообщить об этом фронту (т.е. фронт по наполнению JSON ответа должен понять что пошло не так
-	//     и показать простенький алерт)
+	// 1. Покрыть код кор-сервиса и карт-сервиса доками сваггера
+	// 2. Замените оставшийся RestTemplate на WebClient
+	// 3. В конфиге сделайте преобразование в:
+	// integrations:
+	//  cart-service:
+	//    url: http://localhost:5555/cart
+	//    connect-timeout: 2000
+	//    read-timeout: 10000
+	//    write-timeout: 2000
+	// В:
+	// integrations:
+	//  cart-service:
+	//    url: http://localhost:5555/cart
+	//    timeouts:
+	//      read: 2000
+	//		write: 2000
+	//		connection: 1000
 
 	// Ближайшие доработки:
-	// 1. Добавить PayPal
-	// 2. Безопасность на уровне Gateway
-	// 3. Поговорить про докер и подготовить docker-compose
-	// 4. Посмотреть на Wiremock
-	// 5. Swagger
-	// 6. WebClient
-	// 7. Обработка цепочек ошибок в МСах
+	// . Поговорить про докер и подготовить docker-compose
+	// . Добавить PayPal
+	// . Categories (до след занятия)
+	// . Фронт кнопки назад вперед в пагинации (до след занятия)
+	// . Безопасность на уровне Gateway
+	// . Посмотреть на Wiremock
+	// . WebClient
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringWebApplication.class, args);

@@ -1,10 +1,18 @@
 package com.timal1.spring.web.api.carts;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
 import java.util.List;
 
+@Schema(description = "Модель корзины")
 public class CartDto {
+
+    @Schema(description = "Список продуктов в корзине")
     private List<CartItemDto> items;
-    private Double totalPrice;
+
+    @Schema(description = "Сумма корзины", example = "200.00")
+    private BigDecimal totalPrice;
 
     public List<CartItemDto> getItems() {
         return items;
@@ -14,18 +22,18 @@ public class CartDto {
         this.items = items;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
     public CartDto() {
     }
 
-    public CartDto(List<CartItemDto> items, Double totalPrice) {
+    public CartDto(List<CartItemDto> items, BigDecimal totalPrice) {
         this.items = items;
         this.totalPrice = totalPrice;
     }

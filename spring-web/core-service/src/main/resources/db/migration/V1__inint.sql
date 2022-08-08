@@ -6,7 +6,7 @@ create table if not exists categories (
 create table if not exists products (
     id                  bigserial primary key,
     title               varchar(255),
-    price               double precision,
+    price               numeric(8, 2) not null,
     category_id         bigint references categories (id),
     created_at          timestamp default current_timestamp,
     updated_at          timestamp default current_timestamp
@@ -37,8 +37,8 @@ create table if not exists users_roles (
 
 create table orders (
     id                  bigserial primary key,
-    username             varchar(255) not null,
-    total_price         double precision not null,
+    username            varchar(255) not null,
+    total_price         numeric(8, 2) not null,
     address             varchar(255),
     phone               varchar(255),
     created_at          timestamp default current_timestamp,
@@ -50,8 +50,8 @@ create table order_items (
     product_id          bigint references products (id),
     order_id            bigint references orders (id),
     quantity            int,
-    price_per_product   double precision,
-    price               double precision,
+    price_per_product   numeric(8, 2) not null,
+    price               numeric(8, 2) not null,
     created_at          timestamp default current_timestamp,
     updated_at          timestamp default current_timestamp
 );
@@ -63,16 +63,16 @@ insert into categories(title) values ('верхняя одежда'),
                                      ('головной убор'),
                                      ('аксессуары');
 
-insert into products (title, price, category_id) values ('пальто', 200, 1), ('брюки', 50, 2),
-                                           ('ботинки', 100, 4), ('куртка', 150, 1),
-                                           ('рубашка', 40, 2), ('платье', 75, 2),
-                                           ('туфли', 80, 4), ('носки', 5, 3),
-                                           ('кофта', 35, 2), ('шарф', 10, 6),
-                                           ('футболка', 20, 2), ('шапка', 25, 5),
-                                           ('плащ', 170, 1), ('майка', 10, 3),
-                                           ('перчатки', 15, 6), ('шорты', 20, 2),
-                                           ('галстук', 10, 6), ('сапоги', 60, 4),
-                                           ('юбка', 55, 2), ('блузка', 45, 2);
+insert into products (title, price, category_id) values ('пальто', 200.00, 1), ('брюки', 50.00, 2),
+                                           ('ботинки', 100.00, 4), ('куртка', 150.00, 1),
+                                           ('рубашка', 40.00, 2), ('платье', 75.00, 2),
+                                           ('туфли', 80.00, 4), ('носки', 5.00, 3),
+                                           ('кофта', 35.00, 2), ('шарф', 10.00, 6),
+                                           ('футболка', 20.00, 2), ('шапка', 25.00, 5),
+                                           ('плащ', 170.00, 1), ('майка', 10.00, 3),
+                                           ('перчатки', 15.00, 6), ('шорты', 20.00, 2),
+                                           ('галстук', 10.00, 6), ('сапоги', 60.00, 4),
+                                           ('юбка', 55.00, 2), ('блузка', 45.00, 2);
 
 insert into users (username, password, email) values ('Maks', '$2a$12$bxsUv8diiUMbh6v9kteb4eU5wHDwfiZCinje0/lsumm3opjEzLqNO', 'max@gmail.com'),
 --                                                              password 100

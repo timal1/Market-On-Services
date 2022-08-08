@@ -3,6 +3,7 @@ package com.timal1.spring.web.cart.models;
 import com.timal1.spring.web.api.core.ProductDto;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,14 +11,13 @@ import java.util.List;
 @Data
 public class Cart {
     private List<CartItem> items;
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
     }
 
     public void add(ProductDto productDto) {
-
         if (add(productDto.getId())) {
             return;
         }
@@ -58,13 +58,13 @@ public class Cart {
 
     public void clear() {
         items.clear();
-        totalPrice = 0.0;
+        totalPrice = BigDecimal.ZERO;
     }
 
     private void recalculate() {
-        totalPrice = 0.0;
+        totalPrice = BigDecimal.ZERO;
         for (CartItem o : items) {
-            totalPrice += o.getPrice();
+            totalPrice = totalPrice.add(o.getPrice());
         }
     }
 

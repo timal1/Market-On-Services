@@ -1,14 +1,30 @@
 package com.timal1.spring.web.api.core;
 
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
 import java.util.List;
 
+@Schema(description = "Модель заказа")
 public class OrderDto {
+
+    @Schema(description = "ID заказа", required = true, example = "1")
     private Long id;
-    private Double totalPrice;
+    @Schema(description = "Стоимость всего заказа", required = true, example = "200.00")
+    private BigDecimal totalPrice;
+
+    @Schema(description = "Адрес покупателя", example = "г. Москва ул. Виноградная д. 3 кв. 5")
     private String address;
+
+    @Schema(description = "Телефон покупателя", example = "8-900-000-00-00")
     private String phone;
+
+    @Schema(description = "Имя покупателя", example = "Иван")
     private String userName;
+
+    @ArraySchema(schema = @Schema(description = "Список продуктов", implementation = OrderItemDto.class))
     private List<OrderItemDto> items;
 
     public Long getId() {
@@ -19,11 +35,11 @@ public class OrderDto {
         this.id = id;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -62,7 +78,7 @@ public class OrderDto {
     public OrderDto() {
     }
 
-    public OrderDto(Long id, Double totalPrice, String address, String phone, String userName, List<OrderItemDto> items) {
+    public OrderDto(Long id, BigDecimal totalPrice, String address, String phone, String userName, List<OrderItemDto> items) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.address = address;

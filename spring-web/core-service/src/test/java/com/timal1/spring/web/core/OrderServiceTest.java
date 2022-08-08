@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,11 +39,11 @@ public class OrderServiceTest {
         this.cartItemDto.setProductId(5L);
         this.cartItemDto.setProductTitle("chess");
         this.cartItemDto.setQuantity(2);
-        this.cartItemDto.setPricePerProduct(Double.valueOf(50.0));
-        this.cartItemDto.setPrice(Double.valueOf(100.0));
+        this.cartItemDto.setPricePerProduct(BigDecimal.valueOf(50.0));
+        this.cartItemDto.setPrice(BigDecimal.valueOf(100.0));
         this.username = "EgorTest";
         this.cartDto = new CartDto();
-        this.cartDto.setTotalPrice(Double.valueOf(100.0));
+        this.cartDto.setTotalPrice(BigDecimal.valueOf(100.0));
         this.items = items = new ArrayList<>();
         this.items.add(cartItemDto);
         this.cartDto.setItems(items);
