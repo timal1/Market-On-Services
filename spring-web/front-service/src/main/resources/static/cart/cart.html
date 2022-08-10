@@ -15,8 +15,8 @@
         </tr>
         <tr>
             <td></td>
-            <td>Итого</td>
-            <td>{{Cart.totalPrice}}</td>
+            <td>Итого:</td>
+            <td>{{cart.totalPrice}}</td>
         </tr>
         </tbody>
     </table>
@@ -29,7 +29,11 @@
     <form novalidate>
         <input class="form-control" type="text" placeholder="Номер телефона получателя" ng-model="orderDetails.phone">
         <p></p>
-        <input class="form-control" type="text" placeholder="Адрес доставки" ng-model="orderDetails.address">
+        <input class="form-control" type="text" placeholder="Индекс" ng-model="orderDetails.postal_code">
+        <p></p>
+        <input class="form-control" type="text" placeholder="Населенный пункт" ng-model="orderDetails.city">
+        <p></p>
+        <input class="form-control" type="text" placeholder="Наименование улицы, номер дома, номер квартиры" ng-model="orderDetails.address">
         <p></p>
     </form>
 

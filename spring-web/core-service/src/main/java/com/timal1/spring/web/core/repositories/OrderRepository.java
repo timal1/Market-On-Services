@@ -11,8 +11,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-
-    @Query("select o from Order o where o.username = ?1")
+    @Query("select o from Order o where o.username = ?1 and o.status NOT Like 'CANCELED'")
     List<Order> findAllByUsername(String username);
 
 

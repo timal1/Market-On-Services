@@ -19,9 +19,12 @@ public class OrderConverter {
     public OrderDto entityToDto(Order order) {
         OrderDto out = new OrderDto();
         out.setId(order.getId());
+        out.setPostalCode(order.getPostalCode());
+        out.setCity(order.getCity());
         out.setAddress(order.getAddress());
         out.setPhone(order.getPhone());
         out.setTotalPrice(order.getTotalPrice());
+        out.setStatus(order.getStatus());
         out.setUserName(order.getUsername());
         out.setItems(order.getItems().stream().map(orderItemConverter::entityToDto).collect(Collectors.toList()));
         return out;

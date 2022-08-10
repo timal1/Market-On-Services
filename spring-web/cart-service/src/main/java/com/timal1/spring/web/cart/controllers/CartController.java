@@ -1,22 +1,18 @@
 package com.timal1.spring.web.cart.controllers;
 
 import com.timal1.spring.web.api.carts.CartDto;
+import com.timal1.spring.web.api.core.OrderDto;
 import com.timal1.spring.web.api.dto.StringResponse;
-import com.timal1.spring.web.api.exeptions.AppError;
-import com.timal1.spring.web.api.exeptions.ResourceNotFoundException;
 import com.timal1.spring.web.cart.converters.CartConverter;
-import com.timal1.spring.web.cart.exeptions.GlobalExceptionHandler;
 import com.timal1.spring.web.cart.services.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 
@@ -64,17 +60,11 @@ public class CartController {
             }
     )
     @GetMapping("/{uuid}/add/{productId}")
-    public ResponseEntity<?> add(@RequestHeader(required = false) String username,
-                                 @PathVariable @Parameter(description = "Идентификатор корзины", required = true) String uuid,
-                                 @PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long productId) {
-        try {
-            cartService.addToCart(cartService.getCurrentCartUuid(username, uuid), productId);
-        } catch (ResourceNotFoundException e) {
-            return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.toString(), e.getMessage()), HttpStatus.NOT_FOUND);
-        } catch (WebClientResponseException we) {
-            return new ResponseEntity<>(new AppError(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Сервер продуктов не отвечает"), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return null;
+    public void add(@RequestHeader(required = false) String username,
+                    @PathVariable @Parameter(description = "Идентификатор корзины", required = true) String uuid,
+                    @PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long productId)
+    {
+        cartService.addToCart(cartService.getCurrentCartUuid(username, uuid), productId);
     }
 
     @Operation(
@@ -140,8 +130,18 @@ public class CartController {
         );
     }
 
+    @Operation(
+            summary = "Получение списка популрных продуктов добавленных в карзину",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                    )
+            }
+    )
     @GetMapping("/get_best_products/{amountDay}/{amountProducts}")
-    public List<String> getFavoriteProductsMonth(@PathVariable int amountDay, @PathVariable int amountProducts) {
+    public List<String> getFavoriteProductsMonth(@PathVariable @Parameter(description = "Количество дней", required = true) int amountDay,
+                                                 @PathVariable @Parameter(description = "Количество продуктов для вывода", required = true)int amountProducts) {
         return cartService.findFavoritesProducts(amountDay, amountProducts);
     }
 }
