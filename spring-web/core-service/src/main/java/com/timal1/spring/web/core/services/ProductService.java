@@ -37,8 +37,7 @@ public class ProductService {
             spec = spec.and(ProductsSpecifications.titleLike(titlePart));
         }
         if (categoryPart != null) {
-            Long categoryId = categoryProductService.findIdByTitle(categoryPart);
-            spec = spec.and(ProductsSpecifications.categoryLike(categoryId));
+            spec = spec.and(ProductsSpecifications.categoryLike(categoryPart));
         }
         return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
     }
