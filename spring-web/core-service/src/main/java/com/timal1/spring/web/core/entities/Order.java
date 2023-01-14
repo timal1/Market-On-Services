@@ -29,6 +29,12 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "city")
+    private String city;
+
     @Column(name = "address")
     private String address;
 
@@ -37,6 +43,9 @@ public class Order {
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "status")
+    private String status;
 
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnore

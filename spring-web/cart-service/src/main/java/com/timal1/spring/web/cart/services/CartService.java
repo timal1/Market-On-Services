@@ -40,10 +40,9 @@ public class CartService {
         return (Cart) redisTemplate.opsForValue().get(cartKey);
     }
 
-    public void addToCart(String cartKey, Long productId) {
+    public void addToCart(String cartKey, Long productId) throws ResourceNotFoundException{
             ProductDto productDto = productServiceIntegration.getProductById(productId)
-                    .orElseThrow();
-                   // .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + productId + " не найден"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Продукт не найдет с id: " + productId));
             execute(cartKey, c -> {
                 c.add(productDto);
             });
