@@ -1,11 +1,13 @@
 package com.timal1.spring.web.api.carts;
 
+import java.math.BigDecimal;
+
 public class CartItemDto {
     private Long productId;
     private String productTitle;
     private int quantity;
-    private double pricePerProduct;
-    private double price;
+    private BigDecimal pricePerProduct;
+    private BigDecimal price;
 
     public Long getProductId() {
         return productId;
@@ -31,26 +33,26 @@ public class CartItemDto {
         this.quantity = quantity;
     }
 
-    public double getPricePerProduct() {
+    public BigDecimal getPricePerProduct() {
         return pricePerProduct;
     }
 
-    public void setPricePerProduct(double pricePerProduct) {
+    public void setPricePerProduct(BigDecimal pricePerProduct) {
         this.pricePerProduct = pricePerProduct;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
     public CartItemDto() {
     }
 
-    public CartItemDto(Long productId, String productTitle, int quantity, double pricePerProduct, double price) {
+    public CartItemDto(Long productId, String productTitle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
         this.productId = productId;
         this.productTitle = productTitle;
         this.quantity = quantity;

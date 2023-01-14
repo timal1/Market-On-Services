@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -28,10 +29,10 @@ public class OrderItem {
     private Integer quantity;
 
     @Column(name = "price_per_product")
-    private Double pricePerProduct;
+    private BigDecimal pricePerProduct;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

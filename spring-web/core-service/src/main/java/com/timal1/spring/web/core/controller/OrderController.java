@@ -5,6 +5,11 @@ import com.timal1.spring.web.api.core.OrderDetailsDto;
 import com.timal1.spring.web.api.core.OrderDto;
 import com.timal1.spring.web.core.services.OrderService;
 import com.timal1.spring.web.core.converters.OrderConverter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +26,14 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
 
+    @Operation(
+            summary = "Создание нового заказа",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200"
+                    )
+            }
+    )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(@RequestHeader String username,
@@ -28,6 +41,15 @@ public class OrderController {
          orderService.createOrder(username, orderDetailsDto);
     }
 
+    @Operation(
+            summary = "Получение списка заказов",
+            responses = {
+                    @ApiResponse(
+                            description = "Успешный ответ", responseCode = "200",
+                            content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDto.class)))
+                    )
+            }
+    )
     @GetMapping
     public List<OrderDto> getCurrentUserOrders(@RequestHeader String username) {
         return orderService.findOrdersByUserName(username).stream()

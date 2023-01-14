@@ -20,21 +20,18 @@ public class AppConfig {
 
     @Bean
     public WebClient productServiceWebClient() {
-
-        return WebClient
-                .builder()
-                .baseUrl(productServiceUrl)
-                .clientConnector(new ReactorClientHttpConnector(configurationHttpClient()))
-                .build();
-    }
-
-    private HttpClient configurationHttpClient() {
-        return HttpClient
+        HttpClient httpClient = HttpClient
                 .create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2000)
                 .doOnConnected(connection -> {
                     connection.addHandlerLast(new ReadTimeoutHandler(10000, TimeUnit.MILLISECONDS));
                     connection.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS));
                 });
+
+        return WebClient
+                .builder()
+                .baseUrl(productServiceUrl)
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
+                .build();
     }
 }

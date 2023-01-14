@@ -1,12 +1,26 @@
 package com.timal1.spring.web.api.core;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
+
+@Schema(description = "Модель единицы заказа")
 public class OrderItemDto {
 
+    @Schema(description = "ID продукта", required = true, example = "1")
     private Long productId;
+
+    @Schema(description = "Название продукта", required = true, example = "пальто")
     private String productTitle;
+
+    @Schema(description = "Количество штук продукта", required = true, example = "2")
     private int quantity;
-    private double pricePerProduct;
-    private double price;
+
+    @Schema(description = "Стоимость одного продукта", required = true, example = "50.00")
+    private BigDecimal pricePerProduct;
+
+    @Schema(description = "Стоимость всех продуктов", required = true, example = "100.00")
+    private BigDecimal price;
 
     public Long getProductId() {
         return productId;
@@ -32,26 +46,26 @@ public class OrderItemDto {
         this.quantity = quantity;
     }
 
-    public double getPricePerProduct() {
+    public BigDecimal getPricePerProduct() {
         return pricePerProduct;
     }
 
-    public void setPricePerProduct(double pricePerProduct) {
+    public void setPricePerProduct(BigDecimal pricePerProduct) {
         this.pricePerProduct = pricePerProduct;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
     public OrderItemDto() {
     }
 
-    public OrderItemDto(Long productId, String productTitle, int quantity, double pricePerProduct, double price) {
+    public OrderItemDto(Long productId, String productTitle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
         this.productId = productId;
         this.productTitle = productTitle;
         this.quantity = quantity;
