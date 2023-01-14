@@ -1,19 +1,26 @@
 package com.timal1.spring.web.cart.services;
 
-import com.timal1.spring.web.api.dto.ProductDto;
-import com.timal1.spring.web.api.dto.Cart;
+import com.timal1.spring.web.api.core.ProductDto;
+import com.timal1.spring.web.api.exeptions.ResourceNotFoundException;
+import com.timal1.spring.web.cart.entities.CartItemEntity;
+import com.timal1.spring.web.cart.integrations.ProductServiceIntegration;
+import com.timal1.spring.web.cart.models.Cart;
+import com.timal1.spring.web.cart.repositories.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
+    private final ProductServiceIntegration productServiceIntegration;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final CartRepository cartRepository;
 
     @Value("${utils.cart.prefix}")
     private String cartPrefix;
@@ -33,10 +40,19 @@ public class CartService {
         return (Cart) redisTemplate.opsForValue().get(cartKey);
     }
 
-    public void addToCart(String cartKey, ProductDto productDto) {
+    public void addToCart(String cartKey, Long productId) {
+        ProductDto productDto = productServiceIntegration.getProductById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найдет с id: " + productId));
         execute(cartKey, c -> {
             c.add(productDto);
         });
+        CartItemEntity cartItemEntity = new CartItemEntity();
+        cartItemEntity.setProductId(productDto.getId());
+        cartItemEntity.setProductTitle(productDto.getTitle());
+        cartItemEntity.setPrice(productDto.getPrice());
+        cartItemEntity.setCartKey(cartKey);
+        cartRepository.save(cartItemEntity);
+
     }
 
     public void clearCart(String cartKey) {
@@ -67,5 +83,16 @@ public class CartService {
 
     public void updateCart(String cartKey, Cart cart) {
         redisTemplate.opsForValue().set(cartKey, cart);
+    }
+
+    public List<String> findFavoritesProducts(int amountDay, int amountProducts) {
+        return cartRepository.findFavoritesProducts(amountProducts, amountDay);
+    }
+
+    public String getCurrentCartUuid(String username, String uuid) {
+        if (username != null) {
+            return getCartUuidFromSuffix(username);
+        }
+        return getCartUuidFromSuffix(uuid);
     }
 }

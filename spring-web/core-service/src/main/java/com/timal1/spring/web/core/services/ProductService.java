@@ -1,7 +1,8 @@
 package com.timal1.spring.web.core.services;
 
+import com.timal1.spring.web.api.core.ProductDto;
 import com.timal1.spring.web.api.exeptions.ResourceNotFoundException;
-import com.timal1.spring.web.api.dto.ProductDto;
+import com.timal1.spring.web.core.converters.ProductConverter;
 import com.timal1.spring.web.core.repositories.ProductRepository;
 import com.timal1.spring.web.core.repositories.specifications.ProductsSpecifications;
 import com.timal1.spring.web.core.entities.Product;
@@ -12,7 +13,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryProductService categoryProductService;
+    private final ProductConverter productConverter;
 
     public Page<Product> find(Double minPrice, Double maxPrice, String titlePart, Integer page, String categoryPart) {
         Specification<Product> spec = Specification.where(null);
@@ -59,5 +63,9 @@ public class ProductService {
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
         return product;
+    }
+
+    public List<String> getFavoriteProducts(List<Long> listId) {
+        return productRepository.findByListId(listId);
     }
 }

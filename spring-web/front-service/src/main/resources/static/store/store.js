@@ -26,16 +26,9 @@ angular.module('market-front').controller('storeController', function ($scope, $
         return arr;
     }
 
-    $scope.addToCart = function (productId, productTitle, productPrice) {
-        $http({
-            url: contextPath + 'cart/api/v1/cart/' + $localStorage.springWebGuestCartId + '/add',
-            method: 'GET',
-            params: {
-                productId: productId,
-                productTitle: productTitle,
-                productPrice: productPrice
-            }
-        }).then(function (response) {
+    $scope.addToCart = function (productId) {
+        $http.get(contextPath + 'cart/api/v1/cart/' + $localStorage.springWebGuestCartId + '/add/' + productId)
+            .then(function (response) {
             });
     }
 

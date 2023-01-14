@@ -1,9 +1,8 @@
 package com.timal1.spring.web.core.controller;
 
 
-import com.timal1.spring.web.api.dto.Cart;
-import com.timal1.spring.web.core.dto.OrderDetailsDto;
-import com.timal1.spring.web.core.dto.OrderDto;
+import com.timal1.spring.web.api.core.OrderDetailsDto;
+import com.timal1.spring.web.api.core.OrderDto;
 import com.timal1.spring.web.core.services.OrderService;
 import com.timal1.spring.web.core.converters.OrderConverter;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +24,18 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(@RequestHeader String username,
-                            @RequestParam(name = "address", required = false) String address,
-                            @RequestParam(name = "phone", required = false) String phone,
-                            @RequestBody Cart cart) {
-         orderService.createOrder(username, address, phone, cart);
+                            @RequestBody OrderDetailsDto orderDetailsDto) {
+         orderService.createOrder(username, orderDetailsDto);
     }
 
     @GetMapping
     public List<OrderDto> getCurrentUserOrders(@RequestHeader String username) {
         return orderService.findOrdersByUserName(username).stream()
                 .map(orderConverter::entityToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/get_best_products/{amountDay}/{amountProducts}")
+    public List<String> getFavoriteProductsMonth(@PathVariable int amountDay, @PathVariable int amountProducts) {
+        return orderService.findFavoritesProducts(amountProducts);
     }
 }
